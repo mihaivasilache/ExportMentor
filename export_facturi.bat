@@ -1,2 +1,2 @@
-start /d python bin/update.py
-start /d python bin/interface.py
+start python bin/update.py
+start python bin/interface.py
