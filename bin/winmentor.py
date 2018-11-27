@@ -18,8 +18,7 @@ class Winmentor:
     def create_header_invoice(self, invoice_json, invoice_counter):
         current_time = datetime.datetime.now()
         header = '[Factura_%d]\n' % invoice_counter
-        header += 'NrDoc=%s\nSerieCarnet=CAR\nData=%s\n' % (invoice_json['invoice_number'], str(current_time.day) + '.' + str(current_time.month) +
-                                                            '.' + str(current_time.year))
+        header += 'NrDoc=%s\nSerieCarnet=CAR\nData=%s\n' % (invoice_json['invoice_number'], invoice_json['date'])
         header += 'CodClient=%s\n' % invoice_json['client_code']
         if invoice_json['company'] == '':
             header += 'Denumire=%s\n' % invoice_json['name'].upper()
@@ -90,7 +89,11 @@ class Winmentor:
 
         transfer_items = {}
         products_counter = 0
+
+        least_date = datetime.datetime.now()
         for invoice in invoice_json['invoices']:
+            if datetime.datetime.strptime(invoice_json['invoices'][invoice]['date'], '%d.%m.%Y') < least_date:
+                least_date = datetime.datetime.strptime(invoice_json['invoices'][invoice]['date'], '%d.%m.%Y')
             products = invoice_json['invoices'][invoice]['items']
             for product in products:
                 if '_product_id' in products[product]:
@@ -105,7 +108,8 @@ class Winmentor:
             transfer_items_str += '%s;%s;DACIA;\n' % (transfer_items[i]['qty'],
                                                         transfer_items[i]['price'])
 
-        self.transfer_body += self.get_transfer_header(len(transfer_items))
+        least_date = datetime.datetime.strftime(least_date, '%d.%m.%Y')
+        self.transfer_body += self.get_transfer_header(len(transfer_items), least_date)
         self.transfer_body += transfer_items_str
 
         json.dump(ex_partners, open('./bin/ex_partners', 'w'))
@@ -115,7 +119,7 @@ class Winmentor:
         open('export/export_transfer.txt', 'w').write(self.transfer_body)
         open('export/partner.txt', 'w').write(self.partners_body)
 
-    def get_transfer_header(self, products_counter):
+    def get_transfer_header(self, products_counter, least_date):
         current_time = datetime.datetime.now()
         transfer_header = '[InfoPachet]\nAnLucru=%s\nLunaLucru=%s\nTipdocument=TRANSFER\nTotalTransferuri=%d\n' % \
                           (str(current_time.year), str(current_time.month), 1)
@@ -123,9 +127,7 @@ class Winmentor:
         transfer_number = json.load(open('./bin/remember_data', 'r'))['last_transfer_number']
         json.dump({'last_transfer_number': transfer_number + 1}, open('./bin/remember_data', 'w'))
         transfer_header += 'NrDoc=%d\n' % transfer_number
-        transfer_header += 'SerieCarnet=TRON\nData=%s\n' % (
-            str(current_time.day) + '.' + str(current_time.month) +
-            '.' + str(current_time.year))
+        transfer_header += 'SerieCarnet=TRON\nData=%s\n' % least_date
         transfer_header += 'GestDest=ONLINE\n'
         transfer_header += 'TotalArticole=%d\n' % products_counter
         transfer_header += 'Operat=d\n'

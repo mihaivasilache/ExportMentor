@@ -1,4 +1,6 @@
 import hashlib
+import datetime
+
 
 def get_invoices(db, date_begin, date_end):
     s = """select order_id from wpdn_wcpdf_invoice_number where date between '%s' and '%s'""" % (date_begin, date_end)
@@ -47,6 +49,14 @@ def get_additional_invoice_data(db, invoice_id):
         to_return = {'invoice_number': result[0][0]}
     else:
         return {'invoice_number': None}
+
+    s = """select meta_value from wpdn_postmeta where meta_key = '_completed_date' and post_id = %d""" % invoice_id
+    db.cursor.execute(s)
+    date_completed = db.cursor.fetchall()[0][0]
+    if len(date_completed) <= 0:
+        return False
+    else:
+        to_return['date'] = datetime.datetime.strptime(date_completed, '%Y-%m-%d %H:%M:%S').strftime('%d.%m.%Y')
 
     s = """select meta_value from wpdn_postmeta where meta_key = '_shipping_first_name' and post_id = %d""" \
         % invoice_id
@@ -105,10 +115,16 @@ def invoices_to_json(db, date_start, date_finish):
     invoices = dict()
     for i in get_invoices(db, date_start, date_finish):
         invoices[i] = dict()
-
+    to_delete = []
     for i in invoices:
         invoices[i] = get_items_for_invoice(db, i)
-        invoices[i].update(get_additional_invoice_data(db, i))
+        temp_dict = get_additional_invoice_data(db, i)
+        if temp_dict is False:
+            to_delete.append(i)
+            continue
+        invoices[i].update(temp_dict)
+    for i in to_delete:
+        del invoices[i]
     for i in invoices:
         number_of_products = 0
         for item_id in invoices[i]['items']:
