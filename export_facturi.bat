@@ -1,2 +1,2 @@
-python bin/update.py
-start pythonw bin/interface.py
+python bin\\update.py
+start pythonw bin\\interface.py
