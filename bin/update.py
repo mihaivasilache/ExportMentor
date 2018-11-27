@@ -29,7 +29,7 @@ def check_for_update(update_file_name, update_file=False):
 def main():
     if check_for_update("bin/update.py", True):
         print "Modifing update..."
-        subprocess.call("python bin/update.py", cwd='../')
+        subprocess.call("python ./../bin/update.py")
         exit()
     for i in UPDATE_FILES:
         check_for_update(i)
