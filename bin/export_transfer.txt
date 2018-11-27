@@ -1,0 +1,18 @@
+[InfoPachet]
+AnLucru=2018
+LunaLucru=10
+Tipdocument=TRANSFER
+TotalFacturi=1
+[Transfer_1]
+NrDoc=6
+SerieCarnet=TRON
+Data=18.10.2018
+GestDest=ONLINE
+TotalArticole=4
+Operat=d
+Observatii=fact online
+[Items_1]
+Item_1=752;BUC;4;313.761468;DEPOZIT;
+Item_2=746;BUC;8;132.773109;DEPOZIT;
+Item_3=755;BUC;8;174.128440375;DEPOZIT;
+Item_4=756;BUC;4;660.550458667;DEPOZIT;

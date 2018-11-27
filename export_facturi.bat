@@ -1,0 +1,1 @@
+start /d python bin/interface.py

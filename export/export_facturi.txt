@@ -1,0 +1,29 @@
+[InfoPachet]
+AnLucru=2018
+LunaLucru=11
+Tipdocument=FACTURA IESIRE
+TotalFacturi=2
+[Factura_1]
+NrDoc=00006
+SerieCarnet=CAR
+Data=27.11.2018
+CodClient=a6868da591c1112863a1905259d1779e
+Denumire=SIMONA GORSKI
+TotalArticole=1
+Operat=d
+[Items_1]
+Item_1=752;BUC;1;293.577982;ONLINE;
+Item_1_TVA=26.422018
+[Factura_2]
+NrDoc=00007
+SerieCarnet=CAR
+Data=27.11.2018
+CodClient=581991812e7018ad0d9229c53697c0b4
+Denumire=MARCEL CIORNEI
+TotalArticole=1
+Operat=d
+[Items_2]
+Item_1=751;BUC;2;114.678899;ONLINE;
+Item_1_TVA=20.642202
+Item_2=767;LEI;1;12.61
+Item_2_TVA=2.39

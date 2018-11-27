@@ -1,0 +1,16 @@
+[InfoPachet]
+AnLucru=2018
+LunaLucru=11
+Tipdocument=TRANSFER
+TotalTransferuri=1
+[Transfer_1]
+NrDoc=1
+SerieCarnet=TRON
+Data=27.11.2018
+GestDest=ONLINE
+TotalArticole=2
+Operat=d
+Observatii=fact online
+[Items_1]
+Item_1=752;BUC;1;293.577982;DACIA;
+Item_2=751;BUC;2;114.678899;DACIA;
