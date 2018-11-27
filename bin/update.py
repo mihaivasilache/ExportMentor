@@ -14,7 +14,7 @@ def check_for_update(update_file_name, update_file=False):
     text_form_site = response.text
     text_from_file = open(os.path.join('../', update_file_name), 'r').read()
     if text_form_site != text_from_file:
-        fd = open(os.path.join('../', update_file_name), 'w')
+        fd = open(os.path.join(update_file_name), 'w')
         fd.write(text_form_site)
         fd.close()
         if update_file is True:
