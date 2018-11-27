@@ -14,7 +14,9 @@ def check_for_update(update_file_name, update_file=False):
     text_form_site = response.text
     text_from_file = open(os.path.join('../', update_file_name), 'r').read()
     if text_form_site != text_from_file:
-        open(os.path.join('../', update_file_name), 'w').write(text_form_site)
+        fd = open(os.path.join('../', update_file_name), 'w')
+        fd.write(text_form_site)
+        fd.close()
         if update_file is True:
             return True
         else:
@@ -25,8 +27,9 @@ def check_for_update(update_file_name, update_file=False):
 
 
 def main():
-    if check_for_update("bin/update.py"):
-        subprocess.call("pythonw bin/update.py", cwd='../')
+    if check_for_update("bin/update.py", True):
+        print "Modifing update..."
+        subprocess.call("python bin/update.py", cwd='../')
         exit()
     for i in UPDATE_FILES:
         check_for_update(i)
